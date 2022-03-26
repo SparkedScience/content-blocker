@@ -1,0 +1,13 @@
+<h1>Hello world</h1>
+<button @click="sayHello">Say hello</button>
+
+<script type="module">
+    function sayHello() {
+        alert('Hello world');
+    }
+    console.log('Hello world');
+    import {contentBlocker} from "./src/content-blocker.js";
+
+    let cb = contentBlocker('pancakes', 'en');
+    console.log(cb);
+</script>
