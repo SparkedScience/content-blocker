@@ -1,16 +1,10 @@
-let data;
 let lang;
+let swears = [];
 /**
  *  Constructor for contentFilter object
- *  @param {string} input: The string to filter
  *  @param {string} language: The language to filter
  */
-function contentBlocker(input, language) {
-    if (input === undefined) {
-        throw new Error('No input provided');
-    } else {
-        data = input;
-    }
+function contentBlocker(language) {
     if (language === undefined) {
         lang = 'en';
     } else {
@@ -22,24 +16,57 @@ function contentBlocker(input, language) {
             throw new Error('Language not supported, please use one of the following: ' + languages.join(', '));
         }
     }
+    swears = getSwears();
+}
 
-    console.log(lang);
-    import swears from '/swears/en.js';
-    console.log(swears);
+/**
+ *  Function to get and clean the swear words for the language
+ *  @return {array} The swear words
+ */
+function getSwears() {
+    readJson("./src/swears/" + lang + '.json', function(text){
+        let data = text.split(',');
+        data[0] = data[0].substring(11,data[0].length-1);
+        for (let i = 0; i < data.length; i++) {
+            data[i] = data[i].replace(/"/g, '');
+            data[i] = data[i].replace(/\[/g, '');
+            data[i] = data[i].replace(/]/g, '');
+            data[i] = data[i].replace(/{/g, '');
+            data[i] = data[i].replace(/}/g, '');
+        }
+        swears = data;
+    });
+}
+
+/**
+ * Get the list of swear words from the json file
+ * @param file The file to read
+ * @param callback The callback function
+ */
+function readJson(file, callback) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.overrideMimeType("application/json");
+    rawFile.open("GET", file, true);
+    rawFile.onreadystatechange = function() {
+            callback(rawFile.responseText);
+    }
+    rawFile.send(null);
 }
 
 
 /**
  *  Filter the input string
- *  @return {boolean} true if the input string contains a swear, false if not
+ *  @return {boolean} true if the input string is clean, false if it contains a swear
  */
 
-contentBlocker.prototype.check = function() {
-    const raw_data = data.split(' ')
+contentBlocker.prototype.check = function(text) {
+    const raw_data = text.split(' ')
     for (let i = 0; i < raw_data.length; i++) {
-
+        if(swears.includes(raw_data[i])) {
+            return false;
+        }
     }
-    return raw_data.join(' ')
+    return true;
 }
 
 export {
