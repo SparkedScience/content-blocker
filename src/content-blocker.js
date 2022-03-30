@@ -4,7 +4,7 @@ let swears = [];
  *  Constructor for contentFilter object
  *  @param {string} language: The language to filter
  */
-function contentBlocker(language) {
+function ContentBlocker(language) {
     if (language === undefined) {
         lang = 'en';
     } else {
@@ -59,7 +59,7 @@ function readJson(file, callback) {
  *  @return {boolean} true if the input string is clean, false if it contains a swear
  */
 
-contentBlocker.prototype.check = function(text) {
+ContentBlocker.prototype.check = function(text) {
     const raw_data = text.split(' ')
     for (let i = 0; i < raw_data.length; i++) {
         if(swears.includes(raw_data[i])) {
@@ -70,5 +70,5 @@ contentBlocker.prototype.check = function(text) {
 }
 
 export {
-    contentBlocker
+    ContentBlocker
 }

@@ -1,10 +1,10 @@
 {
-  "name": "content-blocker",
-  "version": "1.0.0",
+  "name": "@sparkedscience/content-blocker",
+  "version": "1.0.1",
   "description": "A JS package to detect swear words",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "demo": "open-cli index.html"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,11 @@
     "url": "https://github.com/SparkedScience/content-blocker/issues"
   },
   "homepage": "https://github.com/SparkedScience/content-blocker#readme",
-  "dependencies": {
-    "data": "^0.6.1"
+  "devDependencies": {
+    "open-cli": "^7.0.1"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
   }
 }
